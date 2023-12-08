@@ -1,0 +1,36 @@
+syntax = "v1"
+
+info(
+	author: "user-api"
+	date: "2023-11-6"
+	desc: "api语法示例及语法说明"
+)
+type (
+	ResponseBsee {
+		Code  int         `json:"code"`
+		Error string      `json:"error"`
+		Data  interface{} `json:"data"`
+	}
+)
+
+type (
+	UserInfoRequest {
+		UserId string `json:"userId"`
+	}
+	UserInfoResponse {
+		UserId   string `json:"userId"`
+		UserName string `json:"username"`
+	}
+)
+
+@server(
+	group: user
+	prefix: userapi/v1
+	middleware: Auth
+)
+
+service user-api {
+	@doc "获取用户信息"
+	@handler userInfo
+	post /user/info (UserInfoRequest) returns (ResponseBsee)
+}
