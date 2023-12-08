@@ -30,6 +30,7 @@ func (l *UserInfoLogic) UserInfo(req *types.UserInfoRequest) (rsp *types.Respons
 	if err != nil && err != genModel.ErrNotFound {
 		resp.Code = 10000
 		resp.Error = "内部错误"
+		logx.Errorf("find one by user id :%v", err)
 		return &resp, nil
 	}
 	if user == nil {

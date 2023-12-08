@@ -4,6 +4,7 @@ import (
 	"flag"
 	"fmt"
 
+	"go-zero-demo/pkg/middleware"
 	"go-zero-demo/user-api/internal/config"
 	"go-zero-demo/user-api/internal/handler"
 	"go-zero-demo/user-api/internal/svc"
@@ -19,10 +20,9 @@ func main() {
 
 	var c config.Config
 	conf.MustLoad(*configFile, &c)
-
 	server := rest.MustNewServer(c.RestConf)
 	defer server.Stop()
-
+	server.Use(middleware.NewGlobalMiddleware().Handle)
 	ctx := svc.NewServiceContext(c)
 	handler.RegisterHandlers(server, ctx)
 

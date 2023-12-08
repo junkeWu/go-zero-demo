@@ -2,8 +2,18 @@ Name: user-api
 Host: 0.0.0.0
 Port: 8888
 
+Log:
+  ServiceName: user-api
+  Mode: console
+  #Mode: file 打印终端或者文件
+  Path: logs
+  Level: error
+  Encoding: plain
+  ComPress: true
+  KeepDays: 7
+
 DB:
   DataSource: root:123456@tcp(mysql:3340)/goZero?charset=utf8mb4&parseTime=true&loc=Asia%2FShanghai
 Cache:
   - Host: redis:16379
-    Pass: "123456"
+    Pass: "1234561"
