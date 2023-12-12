@@ -2,9 +2,9 @@
 package types
 
 type ResponseBsee struct {
-	Code  int         `json:"code"`
-	Error string      `json:"error"`
-	Data  interface{} `json:"data"`
+	Code uint32      `json:"code"`
+	Msg  string      `json:"msg"`
+	Data interface{} `json:"data"`
 }
 
 type UserInfoRequest struct {

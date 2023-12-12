@@ -3,6 +3,7 @@ package logic
 import (
 	"context"
 
+	"go-zero-demo/pkg/result"
 	"go-zero-demo/user-rpc/internal/svc"
 	"go-zero-demo/user-rpc/pb"
 
@@ -24,10 +25,24 @@ func NewGetUserInfoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetUs
 }
 
 func (l *GetUserInfoLogic) GetUserInfo(in *pb.GetUserInfoReq) (*pb.GetUserInfoResp, error) {
-	// todo: add your logic here and delete this line
+
+	m := map[int64]string{
+		1: "zhangSan",
+		2: "wang",
+	}
+	nickname := "unknown"
+	if val, ok := m[in.Id]; ok {
+		nickname = val
+	}
+	result := result.Success(nil)
+	userInfo := pb.UserModel{
+		Id:       in.GetId(),
+		Nickname: nickname,
+	}
 	resp := pb.GetUserInfoResp{
-		Id:       0,
-		Nickname: "echo",
+		Code: result.Code,
+		Msg:  result.Msg,
+		Data: &userInfo,
 	}
 	return &resp, nil
 }
