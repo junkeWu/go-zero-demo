@@ -16,7 +16,7 @@ DB:
   DataSource: root:123456@tcp(mysql:3340)/goZero?charset=utf8mb4&parseTime=true&loc=Asia%2FShanghai
 Cache:
   - Host: redis:16379
-    Pass: "1234561"
+    Pass: "123456"
 
 RpcClientConfig:
   Etcd:

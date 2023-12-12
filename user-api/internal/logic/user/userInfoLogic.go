@@ -53,7 +53,11 @@ func (l *UserInfoLogic) UserInfo(req *types.UserInfoRequest) (rsp *types.Respons
 		logx.Errorf("find one by user id :%v", err)
 		return &resp, nil
 	}
-
+	if info.Code != 0 {
+		resp.Code = info.Code
+		resp.Msg = info.Msg
+		return &resp, nil
+	}
 	resp.Data = info.Data
 	return &resp, nil
 }

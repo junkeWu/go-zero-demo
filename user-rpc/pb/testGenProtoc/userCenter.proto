@@ -1,0 +1,81 @@
+syntax = "proto3";
+
+option go_package ="./pb";
+
+package pb;
+
+// ------------------------------------ 
+// Messages
+// ------------------------------------ 
+
+//--------------------------------用户表--------------------------------
+message User {
+  int64 id = 1; //id
+  string username = 2; //用户名
+  string mobile = 3; //电话号码
+  string userId = 4; //用户ID
+}
+
+message AddUserReq {
+  string username = 1; //用户名
+  string mobile = 2; //电话号码
+  string userId = 3; //用户ID
+}
+
+message AddUserResp {
+}
+
+message UpdateUserReq {
+  int64 id = 1; //id
+  string username = 2; //用户名
+  string mobile = 3; //电话号码
+  string userId = 4; //用户ID
+}
+
+message UpdateUserResp {
+}
+
+message DelUserReq {
+  int64 id = 1; //id
+}
+
+message DelUserResp {
+}
+
+message GetUserByIdReq {
+  int64 id = 1; //id
+}
+
+message GetUserByIdResp {
+  User user = 1; //user
+}
+
+message SearchUserReq {
+  int64 page = 1; //page
+  int64 limit = 2; //limit
+  int64 id = 3; //id
+  string username = 4; //用户名
+  string mobile = 5; //电话号码
+  string userId = 6; //用户ID
+}
+
+message SearchUserResp {
+  repeated User user = 1; //user
+}
+
+
+
+// ------------------------------------ 
+// Rpc Func
+// ------------------------------------ 
+
+service userCenter{ 
+
+	 //-----------------------用户表----------------------- 
+	 rpc AddUser(AddUserReq) returns (AddUserResp); 
+	 rpc UpdateUser(UpdateUserReq) returns (UpdateUserResp); 
+	 rpc DelUser(DelUserReq) returns (DelUserResp); 
+	 rpc GetUserById(GetUserByIdReq) returns (GetUserByIdResp); 
+	 rpc SearchUser(SearchUserReq) returns (SearchUserResp); 
+
+}

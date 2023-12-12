@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"go-zero-demo/pkg/result"
+	"go-zero-demo/user-rpc/internal/genModel"
 	"go-zero-demo/user-rpc/internal/svc"
 	"go-zero-demo/user-rpc/pb"
 
@@ -25,21 +26,28 @@ func NewGetUserInfoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetUs
 }
 
 func (l *GetUserInfoLogic) GetUserInfo(in *pb.GetUserInfoReq) (*pb.GetUserInfoResp, error) {
-
-	m := map[int64]string{
-		1: "zhangSan",
-		2: "wang",
-	}
-	nickname := "unknown"
-	if val, ok := m[in.Id]; ok {
-		nickname = val
-	}
 	result := result.Success(nil)
+	resp := pb.GetUserInfoResp{
+		Code: result.Code,
+		Msg:  result.Msg,
+	}
+	user, err := l.svcCtx.UserModel.FindOne(l.ctx, in.GetId())
+	if err != nil && err != genModel.ErrNotFound {
+		resp.Code = 10000
+		resp.Msg = "内部错误"
+		logx.Errorf("find one by user id :%v", err)
+		return &resp, nil
+	}
+	if user == nil {
+		resp.Code = 10001
+		resp.Msg = "用户不存在"
+		return &resp, nil
+	}
 	userInfo := pb.UserModel{
 		Id:       in.GetId(),
-		Nickname: nickname,
+		Nickname: user.Username,
 	}
-	resp := pb.GetUserInfoResp{
+	resp = pb.GetUserInfoResp{
 		Code: result.Code,
 		Msg:  result.Msg,
 		Data: &userInfo,
