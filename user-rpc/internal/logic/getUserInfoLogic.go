@@ -7,6 +7,7 @@ import (
 	"go-zero-demo/user-rpc/internal/genModel"
 	"go-zero-demo/user-rpc/internal/svc"
 	"go-zero-demo/user-rpc/pb"
+	"google.golang.org/grpc/metadata"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -26,6 +27,11 @@ func NewGetUserInfoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetUs
 }
 
 func (l *GetUserInfoLogic) GetUserInfo(in *pb.GetUserInfoReq) (*pb.GetUserInfoResp, error) {
+	// 获取传递值
+	if md, ok := metadata.FromIncomingContext(l.ctx); ok {
+		get := md.Get("userIp")
+		logx.Info("userId", get)
+	}
 	result := result.Success(nil)
 	resp := pb.GetUserInfoResp{
 		Code: result.Code,

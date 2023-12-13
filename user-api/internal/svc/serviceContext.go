@@ -11,6 +11,7 @@ import (
 	genModel "go-zero-demo/user-api/model"
 	"go-zero-demo/user-rpc/usercenter"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/metadata"
 )
 
 type ServiceContext struct {
@@ -32,6 +33,9 @@ func NewServiceContext(c config.Config) *ServiceContext {
 
 // RpcClientIntercept 调用rpc拦截器
 func RpcClientIntercept(ctx context.Context, method string, req, reply any, cc *grpc.ClientConn, invoker grpc.UnaryInvoker, opts ...grpc.CallOption) error {
+
+	md := metadata.New(map[string]string{"userIp": "192.168.1.1"})
+	ctx = metadata.NewOutgoingContext(ctx, md)
 	err := invoker(ctx, method, req, reply, cc, opts...)
 	if err != nil {
 		return err
